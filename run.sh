@@ -5,7 +5,7 @@ case $1 in
   image)
     case $2 in
       prepare)
-        docker build -t zored-dao
+        docker build -t zored-dao .
         ;;
       run)
         docker run --name zored-dao zored-dao -d
