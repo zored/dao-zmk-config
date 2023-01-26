@@ -29,22 +29,19 @@ case $1 in
     mkdir -p build/artifacts
     ;;
   build)
+    west init -l config || true
+    west update
+    west zephyr-export
+
     yq eval '.include[] | "SHIELD=" + (.shield // "") + " BOARD=" + .board' build.yaml > build/envs
     cat build/envs | while read -r v; do
       eval "export $v"
       if [ -n "$SHIELD" ]; then
-        EXTRA_CMAKE_ARGS="-DSHIELD=$SHIELD"
-        ARTIFACT_NAME="$SHIELD-$BOARD-zmk"
-        DISPLAY_NAME="$SHIELD - $BOARD"
+        export EXTRA_CMAKE_ARGS="-DSHIELD=$SHIELD" ARTIFACT_NAME="$SHIELD-$BOARD-zmk" DISPLAY_NAME="$SHIELD - $BOARD"
       else
-        EXTRA_CMAKE_ARGS=
-        DISPLAY_NAME="$BOARD"
-        ARTIFACT_NAME="$BOARD-zmk"
+        export EXTRA_CMAKE_ARGS="" DISPLAY_NAME="$BOARD" ARTIFACT_NAME="$BOARD-zmk"
       fi
-      west init -l config
-      west update
-      west zephyr-export
-      west build -s zmk/app -b $BOARD -- -DZMK_CONFIG=./config $EXTRA_CMAKE_ARGS
+      west build -p -s zmk/app -b $BOARD -- -DZMK_CONFIG=/app/config $EXTRA_CMAKE_ARGS
       cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
       if [ -f build/zephyr/zmk.uf2 ]; then
         cp build/zephyr/zmk.uf2 "build/artifacts/$ARTIFACT_NAME.uf2"
