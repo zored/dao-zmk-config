@@ -1,5 +1,6 @@
 #!/bin/sh
 set -ex
+cd /app
 
 case $1 in
   image)
