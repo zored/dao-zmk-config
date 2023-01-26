@@ -1,6 +1,5 @@
 #!/bin/sh
 set -ex
-cd /app
 
 case $1 in
   image)
@@ -12,7 +11,7 @@ case $1 in
         docker run --name zored-dao zored-dao -d
         ;;
       build)
-        docker exec -it zored-dao ./run.sh build
+        docker exec -it zored-dao /run.sh build
         ;;
       *)
         exit 2
@@ -24,9 +23,6 @@ case $1 in
     apt install -y curl
     curl https://github.com/mikefarah/yq/releases/download/v4.30.8/yq_linux_amd64 -Lo /usr/local/bin/yq
     chmod +x /usr/local/bin/yq
-    git clone https://github.com/zored/dao-zmk-config.git /app
-    cd /app
-    git checkout zored
     mkdir -p build/artifacts
     ;;
   build)
