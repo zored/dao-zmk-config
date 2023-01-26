@@ -8,10 +8,13 @@ case $1 in
         docker build -t zored-dao .
         ;;
       run)
-        docker run --name zored-dao zored-dao -d
+        docker run -d --name zored-dao zored-dao
         ;;
       build)
-        docker exec -it zored-dao /run.sh build
+        docker exec -it zored-dao ./run.sh build
+        ;;
+      sync)
+        docker cp ./ zored-dao:/app/
         ;;
       *)
         exit 2
@@ -26,7 +29,6 @@ case $1 in
     mkdir -p build/artifacts
     ;;
   build)
-    git pull
     yq eval '.include[] | "SHIELD=" + (.shield // "") + " BOARD=" + .board' build.yaml > build/envs
     cat build/envs | while read -r v; do
       eval "export $v"
