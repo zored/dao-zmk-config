@@ -4,6 +4,11 @@ set -ex
 case $1 in
   image)
     case $2 in
+      flow)
+        for v in sync build save; do
+          $0 image $v
+        done
+        ;;
       prepare)
         docker build -t zored-dao .
         ;;
@@ -15,6 +20,9 @@ case $1 in
         ;;
       sync)
         docker cp ./ zored-dao:/app/
+        ;;
+      save)
+        docker cp zored-dao:/app/flash/ ./flash/
         ;;
       *)
         exit 2
@@ -43,10 +51,11 @@ case $1 in
       fi
       west build -p -s zmk/app -b $BOARD -- -DZMK_CONFIG=/app/config $EXTRA_CMAKE_ARGS
       cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
+      mkdir -p ./flash/
       if [ -f build/zephyr/zmk.uf2 ]; then
-        cp build/zephyr/zmk.uf2 "build/artifacts/$ARTIFACT_NAME.uf2"
+        cp build/zephyr/zmk.uf2 "flash/$ARTIFACT_NAME.uf2"
       elif [ -f build/zephyr/zmk.hex ]; then
-        cp build/zephyr/zmk.hex "build/artifacts/$ARTIFACT_NAME.hex"
+        cp build/zephyr/zmk.hex "flash/$ARTIFACT_NAME.hex"
       fi
     done
     ;;
