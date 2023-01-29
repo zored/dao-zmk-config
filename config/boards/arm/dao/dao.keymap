@@ -2,10 +2,9 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 
-#define DEF 0
-#define LWR 1
-#define RSE 2
-#define ADJ 3
+#define L_DEF 0
+#define L_SYM 1
+#define L_NAV 2
 
 &lt { quick_tap_ms = <200>; };
 &mt { quick_tap_ms = <200>; };
@@ -15,36 +14,27 @@
         compatible = "zmk,keymap";
         default_layer {
             bindings = <
-&kp LWIN  &kp ESC  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  /**/  &kp U  &kp I  &kp O  &kp P  &kp BSLH  &mt RWIN RBKT
-&kp CAPSLOCK  &kp A  &kp S  &kp D  &kp F  &kp G  &kp H  /**/  &kp J  &kp K  &kp L  &kp SEMI  &mt RCTRL SQT
-&kp LALT  &kp Z  &kp X  &kp C  &kp V  &kp B  &kp N  /**/  &kp M  &kp COMMA  &kp DOT  &kp FSLH  &mt RALT BSLH
-&lt RSE TAB  &mt LSHFT SPACE  &lt LWR RET  /**/  &lt LWR ESC  &mt RSHFT BSPC  &lt RSE DEL
+                &bootloader  &kp ESC  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  /**/  &kp U  &kp I  &kp O  &kp P  &kp BSLH  &bootloader
+                &lt L_SYM CAPSLOCK  &kp A  &kp S  &kp D  &kp F  &kp G  &kp H  /**/  &kp J  &kp K  &kp L  &lt L_NAV SEMI  &mt RCTRL SQT
+                &mt LSHIFT LPAR  &mt LCMD Z  &mt LALT X  &mt LCTRL C  &kp V  &kp B  &kp N  /**/  &kp M  &mt RCTRL COMMA  &mt RALT DOT  &mt RCMD FSLH  &mt RSHIFT RPAR
+                &kp SPACE  &kp BACKSPACE  &none  /**/  &none &kp TAB  &kp ENTER
             >;
         };
-            lower_layer {
-                        bindings = <
-&trans  &kp UNDER  &kp F1  &kp F2  &kp F3  &kp F4  &kp F5  /**/  &kp F6  &kp F7  &kp F8  &kp F9  &kp F10  &kp F11  &mt RGUI F12
-&mt LCTRL PLUS  &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT  /**/  &kp CARET  &kp AMPS  &kp STAR  &kp LPAR  &kp RPAR  &mt RCTRL MINUS
-&mt LALT EQUAL  &kp N1  &kp N2  &kp N3  &kp N4  &kp N5  /**/  &kp N6  &kp N7  &kp N8  &kp N9  &kp N0  &trans
-&lt ADJ TAB  &trans  &trans  /**/  &trans  &trans  &lt ADJ DEL
-                        >;
-                };
-
-                raise_layer {
-                        bindings = <
-&trans  &kp KP_NUM  &kp KP_SLASH  &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_MINUS  /**/  &kp C_VOL_UP  &kp HOME  &kp PSCRN  &kp PG_UP  &kp SLCK  &kp CAPS  &trans
-&mt LCTRL EQUAL  &kp KP_MULTIPLY  &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp KP_PLUS  /**/  &kp C_MUTE  &kp LEFT  &kp UP  &kp RIGHT  &kp INS  &mt RCTRL K_APP
-&trans  &kp KP_N0  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_DOT  /**/  &kp C_VOL_DN  &kp END  &kp DOWN  &kp PG_DN  &kp PAUSE_BREAK  &trans
-&trans  &trans  &lt ADJ RET  /**/  &lt ADJ ESC  &trans  &trans
-                        >;
-                };
-                adjust_layer {
-                        bindings = <
-&reset  &bootloader  &none  &none  &none  &none  &none  /**/  &none  &none  &none  &none  &none  &bootloader  &reset
-&bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  /**/  &bt BT_SEL 4  &bt BT_SEL 3  &bt BT_SEL 2  &bt BT_SEL 1  &bt BT_SEL 0  &bt BT_CLR
-&none  &none  &none  &none  &none  &none  /**/  &none  &none  &none  &none  &none  &none
-&trans  &none  &trans  /**/  &trans  &none  &trans
-                        >;
-                };
+        symbol_layer {
+            bindings = <
+                &none  &none  &kp EXCL  &kp HASH  &kp LBRC  &kp RBRC  &kp SLASH  /**/  &kp KP_EQUAL  &kp N7  &kp N8  &kp N9  &kp AMPERSAND  &kp PIPE  &none
+                &none  &kp AT  &kp DOLLAR  &kp LPAR  &kp RPAR  &kp GRAVE  /**/  &kp N0  &kp N4  &kp N5  &kp N6  &none  &none
+                &none  &kp LCTRL  &kp LALT  &kp LBKT  &kp RBKT  &kp TILDE  /**/  &kp KP_MINUS  &kp N1  &kp N2  &kp N3  &kp SLASH  &none
+                &none  &kp DELETE  &none  /**/  &none  &none  &none
+             >;
         };
+        navigation_layer {
+            bindings = <
+                &none  &none  &none  &none  &none  &none  &none  /**/  &kp C_BRIGHTNESS_DEC  &kp K_VOLUME_DOWN  &kp K_VOLUME_UP  &kp C_BRIGHTNESS_INC  &kp K_MUTE  &none  &none
+                &none  &none  &none  &none  &none  &none  /**/  &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &none  &none
+                &none  &none  &none  &none  &none  &none  /**/  &none  &kp PAGE_DOWN  &kp PAGE_UP  &none  &none  &none
+                &none  &none  &none  /**/  &none  &none  &none
+             >;
+        };
+    };
 };

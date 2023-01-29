@@ -4,10 +4,19 @@ set -ex
 case $1 in
   image)
     case $2 in
-      flow)
+      flow-build-docker)
+        for v in prepare run; do
+          $0 image $v
+        done
+        ;;
+      flow|flow-build-firwmare)
+        docker start zored-dao
         for v in sync build save; do
           $0 image $v
         done
+        ;;
+      bash)
+        docker exec -it zored-dao bash
         ;;
       prepare)
         docker build -t zored-dao .
@@ -22,12 +31,22 @@ case $1 in
         docker cp ./ zored-dao:/app/
         ;;
       save)
-        docker cp zored-dao:/app/flash/ ./flash/
+        d="./flash/$(date +%s)"
+        docker cp zored-dao:/app/flash "$d"
+        cp "$d/"* ./flash/
         ;;
       *)
         exit 2
         ;;
     esac
+    ;;
+  flash|flash-mac)
+    while ! ls /Volumes/NRF52BOOT/; do
+      echo 'no volume, waiting'
+      sleep 3
+    done
+    cp "flash/$3/dao_$2-zmk.uf2" /Volumes/NRF52BOOT/
+    osascript -e 'tell application "Finder" to eject (every disk whose ejectable is true)'
     ;;
   init)
     apt update
@@ -40,6 +59,7 @@ case $1 in
     west init -l config || true
     west update
     west zephyr-export
+    rm -rf flash/*
 
     yq eval '.include[] | "SHIELD=" + (.shield // "") + " BOARD=" + .board' build.yaml > build/envs
     cat build/envs | while read -r v; do
