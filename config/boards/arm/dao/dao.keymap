@@ -7,17 +7,17 @@
 #define L_SYM 1
 #define L_NAV 2
 
-&lt { quick_tap_ms = <200>; };
-&mt { quick_tap_ms = <200>; };
-&mmv { time-to-max-speed-ms = <200>; };
-&mwh { acceleration-exponent=<2>; };
+&lt { quick_tap_ms = <150>; };
+&mt { quick_tap_ms = <150>; };
+&mmv { time-to-max-speed-ms = <300>; };
+&mwh { acceleration-exponent=<4>; };
 
 / {
     keymap {
         compatible = "zmk,keymap";
         default_layer {
             bindings = <
-                &bootloader  &kp ESC  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  /**/  &kp U  &kp I  &kp O  &kp P  &kp BSLH  &bootloader
+                &mo L_NAV  &kp ESC  &kp Q  &kp W  &kp E  &kp R  &kp T  &kp Y  /**/  &kp U  &kp I  &kp O  &kp P  &kp BSLH  &mo L_SYM
                 &lt L_SYM CAPSLOCK  &kp A  &kp S  &kp D  &kp F  &kp G  &kp H  /**/  &kp J  &kp K  &kp L  &lt L_NAV SEMI  &mt RCTRL SQT
                 &mt LSHIFT LPAR  &mt LCMD Z  &mt LALT X  &mt LCTRL C  &kp V  &kp B  &kp N  /**/  &kp M  &mt RCTRL COMMA  &mt RALT DOT  &mt RCMD FSLH  &mt RSHIFT RPAR
                 &kp SPACE  &kp BACKSPACE  &none  /**/  &none &kp TAB  &kp ENTER
@@ -39,5 +39,5 @@
                 &none  &none  &none  /**/  &none  &none  &none
              >;
         };
-    };
+    }
 };
