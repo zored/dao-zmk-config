@@ -33,7 +33,7 @@
         };
         navigation_layer {
             bindings = <
-                &none  &none  &none  &mkp RCLK  &mmv MOVE_UP  &mkp LCLK  &none  /**/  &kp C_BRIGHTNESS_DEC  &kp K_VOLUME_DOWN  &kp K_VOLUME_UP  &kp C_BRIGHTNESS_INC  &kp K_MUTE  &none  &none
+                &bt BT_CLR &none  &none  &mkp RCLK  &mmv MOVE_UP  &mkp LCLK  &none  /**/  &kp C_BRIGHTNESS_DEC  &kp K_VOLUME_DOWN  &kp K_VOLUME_UP  &kp C_BRIGHTNESS_INC  &kp K_MUTE  &none  &none
                 &none  &none  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &none  /**/  &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &none  &none
                 &none  &none  &none  &none  &mwh SCROLL_DOWN  &mwh SCROLL_UP  /**/  &none  &kp PAGE_DOWN  &kp PAGE_UP  &none  &none  &none
                 &none  &none  &none  /**/  &none  &none  &none
